@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
-import { CreateTaskRequestDto, TaskState, UpdateTasktRequestDto } from "./dto/task.dto";
+import { CreateTaskRequestDto, UpdateTaskRequestDto , TaskState} from "./dto";
 
 @Injectable()
 export class TaskService {
@@ -75,7 +75,7 @@ export class TaskService {
         }
     }
 
-    async updateTask(updateTaskRequestDto: UpdateTasktRequestDto) {
+    async updateTask(updateTaskRequestDto: UpdateTaskRequestDto) {
         try {
             await this.findTaskById(updateTaskRequestDto.id);
             const updatedTask = await this.prismaService.task.update({

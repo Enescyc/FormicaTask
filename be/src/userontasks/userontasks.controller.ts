@@ -1,0 +1,32 @@
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { CreateUserOnTaskRequestDto } from "./dto/userontask.dto";
+import { UserOnTasksService } from "./userontasks.service";
+
+
+
+@Controller('userontask')
+export class UserOnTasksController{
+    constructor(private userOnTaskService: UserOnTasksService) {}
+
+
+    @Post()
+    createNewUserOnTasks(@Body() dto : CreateUserOnTaskRequestDto){
+        return this.userOnTaskService.createNewUserOnTasks(dto);
+    }
+
+    @Get()
+    getAllUserOnTasks() {
+        return this.userOnTaskService.getAll();
+    }
+
+    @Get(':id')
+    getUserOnTaskByUserId(@Param('id') id: string){
+        return this.userOnTaskService.getUserOnTaskByUserId(+id);
+    }
+
+    @Get('task/:id')
+    getUserOnTaskByTaskId(@Param('id') id: string){
+        return this.userOnTaskService.getUserOnTaskByTaskId(+id);
+    }
+
+}

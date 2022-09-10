@@ -12,7 +12,7 @@ export class CreateTaskRequestDto {
 
 }
 
-export class UpdateTasktRequestDto extends CreateTaskRequestDto {
+export class UpdateTaskRequestDto extends CreateTaskRequestDto {
 
     @IsNotEmpty()
     id: number;
@@ -20,6 +20,8 @@ export class UpdateTasktRequestDto extends CreateTaskRequestDto {
     @IsNotEmpty()
     state: string;
 }
+
+
 
 export enum TaskState {
     STARTED = "HENUZ BAŞLAMADI",

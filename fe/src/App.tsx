@@ -1,4 +1,4 @@
-import { Button, Descriptions, Layout, Menu, PageHeader, Tabs } from 'antd';
+import { Layout, Tabs } from 'antd';
 import { Content, Footer, Header } from 'antd/lib/layout/layout';
 import './App.css';
 import MyHeader from './components/MyHeader';
@@ -22,14 +22,17 @@ function App() {
   return (
     <Layout className='text-white'>
       <Header>
+        
         <MyHeader></MyHeader>
 
       </Header>
       <Content className="min-h-full w-full px-10 py-10 bg-white shadow-sm">
         <Tabs>
+
           <Tabs.TabPane tab="Tasks" key="item-1">
             <TaskPage></TaskPage>
           </Tabs.TabPane>
+
           <Tabs.TabPane tab="User" key="item-2">
             <UserPage></UserPage>
           </Tabs.TabPane>
@@ -37,6 +40,7 @@ function App() {
           <Tabs.TabPane tab="Task Managment" key="item-3">
             <TaskManagmentPage></TaskManagmentPage>
           </Tabs.TabPane>
+
         </Tabs>
 
       </Content>
