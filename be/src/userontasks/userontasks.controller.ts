@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
+import { JwtGuard } from "src/auth/guard";
 import { CreateUserOnTaskRequestDto } from "./dto/userontask.dto";
 import { UserOnTasksService } from "./userontasks.service";
 
 
 
 @Controller('userontask')
+@UseGuards(AuthGuard('jwt'))
 export class UserOnTasksController{
     constructor(private userOnTaskService: UserOnTasksService) {}
 

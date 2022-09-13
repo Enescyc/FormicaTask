@@ -4,6 +4,7 @@ import { TaskModule } from './task/task.module';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserontasksModule } from './userontasks/userontasks.module';
+import { AuthController } from './auth/auth.controller';
 
 
 @Module({

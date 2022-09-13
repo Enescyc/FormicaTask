@@ -1,4 +1,4 @@
-import { Button, Divider, Radio, Table } from 'antd';
+import { Button, Divider, Input, Modal, Radio, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { useEffect, useState } from 'react';
 
@@ -31,6 +31,10 @@ const columns: ColumnsType<DataType> = [
     {
         title: 'State',
         dataIndex: 'state',
+    },
+    {
+        title: 'Details ',
+        dataIndex: 'detail',
     }
 ];
 
@@ -46,11 +50,28 @@ const rowSelection = {
 
 const TaskTable: React.FC = () => {
 
+
     const [data, setData] = useState<DataType | undefined>(undefined);
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
     useEffect(() => {
-        // get task data
+        // TODO FETCH TASKS. 
+        // Inıtılaze the table
     }, [])
+
     return (
         <div className='flex flex-col w-full h-full'>
             <div>
@@ -59,8 +80,17 @@ const TaskTable: React.FC = () => {
                     columns={columns}
                 />
             </div>
-
+            <div className='relative w-full h-full p-10'>
+                <button onClick={showModal}
+                    className='px-4 py-4 m-4 bg-green-500 absolute bottom-0 right-0 rounded-xl text-white text-md font-bold'>Create New Task</button>
             </div>
+
+            <Modal title="New Task" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <Input size='large' className='mt-5' placeholder='Title'></Input>
+                <Input size='large' className='mt-5' placeholder='Description'></Input>
+            </Modal>
+
+        </div>
     );
 };
 

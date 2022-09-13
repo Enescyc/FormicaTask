@@ -1,65 +1,37 @@
-import { Layout, Tabs } from 'antd';
-import { Content, Footer, Header } from 'antd/lib/layout/layout';
-import './App.css';
-import MyHeader from './components/MyHeader';
-import { LoginPage } from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import TaskManagmentPage from './pages/TaskManagmentPage';
-import TaskPage from './pages/TaskPage';
-import UserPage from './pages/UserPage';
 
-const items = [
-  { label: 'Tasks', key: 'item-1', children: 'Content 1' },
-  { label: 'Users', key: 'item-2', children: 'Content 2' },
-  { label: 'Task Managment', key: 'item-3', children: 'Content 3' },
-  { label: 'Login Page', key: 'item-4', children: '' },
-  { label: 'Register Page', key: 'item-5', children: '' },
-];
+import * as React from "react";
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import TaskManagmentPage from "./pages/TaskManagmentPage";
+import TaskPage from "./pages/TaskPage";
+import UserPage from "./pages/UserPage";
 
+
+const PrivateRoute = () => {
+  const token = localStorage.getItem('token');
+  // TODO VALIDATE TOKEN
+  return token ? <Outlet /> : <Navigate to="/" />
+}
 
 
 function App() {
 
-
-
   return (
-    <Layout className='text-white'>
-      <Header>
-        
-        <MyHeader></MyHeader>
+    <div>
+      <BrowserRouter>
+          <Routes>
+            < Route path='/' element={<LoginPage></LoginPage>}></Route>
+            < Route path='/register' element={<RegisterPage></RegisterPage>}></Route>
 
-      </Header>
-      <Content className="min-h-full w-full px-10 py-10 bg-white shadow-sm">
-        <Tabs>
-
-          <Tabs.TabPane tab="Tasks" key="item-1">
-            <TaskPage></TaskPage>
-          </Tabs.TabPane>
-
-          <Tabs.TabPane tab="User" key="item-2">
-            <UserPage></UserPage>
-          </Tabs.TabPane>
-
-          <Tabs.TabPane tab="Task Managment" key="item-3">
-            <TaskManagmentPage></TaskManagmentPage>
-          </Tabs.TabPane>
-
-          <Tabs.TabPane tab="Login Page" key="item-4">
-            <TaskManagmentPage></TaskManagmentPage>
-          </Tabs.TabPane>
-
-          <Tabs.TabPane tab="Register Page" key="item-5">
-            <RegisterPage></RegisterPage>
-          </Tabs.TabPane>
-
-        </Tabs>
-
-      </Content>
-      <Footer>
-         <LoginPage></LoginPage>
-      </Footer>
-   
-    </Layout>
+            <Route path='/admin' element={<PrivateRoute></PrivateRoute>} >
+              <Route path='/admin/managment' element={<TaskManagmentPage></TaskManagmentPage>}></Route>
+              <Route path='/admin/user' element={<UserPage></UserPage>}></Route>
+              <Route path='/admin/task' element={<TaskPage></TaskPage>}></Route>
+            </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
