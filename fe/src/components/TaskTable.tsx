@@ -1,20 +1,26 @@
-import { Button, Divider, Input, Modal, Radio, Table } from 'antd';
+import { Divider, Input, Modal, Radio, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { useEffect, useState } from 'react';
+import { getAllTask } from '../service/task.service';
 
-interface DataType {
-    title: React.Key;
+export interface TaskDataType {
+    id: number;
+    title: string;
     description: string;
     createdDate: number;
     updatedDate: string;
     state: string;
+    detail:JSX.Element
 }
 
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<TaskDataType> = [
+    {
+        title: 'Id',
+        dataIndex: 'id'
+    },
     {
         title: 'Title',
         dataIndex: 'title',
-        render: (text: string) => <a>{text}</a>,
     },
     {
         title: 'Description',
@@ -41,17 +47,31 @@ const columns: ColumnsType<DataType> = [
 
 // rowSelection object indicates the need for row selection
 const rowSelection = {
-    onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: TaskDataType[]) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
     },
-    getCheckboxProps: (record: DataType) => ({
+    getCheckboxProps: (record: TaskDataType) => ({
     }),
 };
 
 const TaskTable: React.FC = () => {
 
 
-    const [data, setData] = useState<DataType | undefined>(undefined);
+    const getTasks = () => {
+        getAllTask().then(res => {
+            const l: TaskDataType[] = res.data;
+            l.map(r => r.detail = <a key={r.id} className='bg-slate-800 px-4 py-4 rounded-md text-white font-bold text-sm' 
+            href={'/admin/task/'+r.id} >Detaylar</a>)
+            setTaskData(l);
+        });
+    }
+
+
+    const [taskData, setTaskData] = useState<TaskDataType[]>([]);
+
+    useEffect(() => {
+        getTasks();
+    }, [])
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -76,7 +96,7 @@ const TaskTable: React.FC = () => {
         <div className='flex flex-col w-full h-full'>
             <div>
                 <Divider />
-                <Table
+                <Table dataSource={taskData}
                     columns={columns}
                 />
             </div>

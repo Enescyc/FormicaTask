@@ -17,4 +17,10 @@ export class AuthController {
     login(@Body() dto : UserLoginRequestDto) {
         return this.authService.login(dto);
     }
+
+    @Post('validate')
+    @HttpCode(HttpStatus.OK)
+    validate(@Body() dto: {email:string}) {
+        return  this.authService.validate(dto);
+    }
 }

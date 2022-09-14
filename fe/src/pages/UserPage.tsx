@@ -1,9 +1,12 @@
+import MyHeader from "../components/MyHeader";
+import UserTable from "../components/UserTable";
 
 
 function UserPage() {
     return(
         <div>
-            User Page
+            <MyHeader></MyHeader>
+            <UserTable></UserTable>
         </div>
     )
 }

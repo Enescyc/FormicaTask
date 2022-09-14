@@ -37,7 +37,7 @@ export class AuthService {
         return this.userService.createUser(userSignUpRequest);
     }
 
-    async signToken(userId: number, email: string): Promise<{access_token : string}>{
+    async signToken(userId: number, email: string): Promise<{ access_token: string }> {
         const payload = {
             sub: userId,
             email: email
@@ -51,4 +51,17 @@ export class AuthService {
         return { access_token: token, };
     }
 
+    async validate(payload: {
+        email: string;
+    }) {
+        const user =
+            await this.prismaService.user.findUnique({
+                where: {
+                    email: payload.email
+                },
+            });
+        delete user?.password;
+        if(user) return {validate:true,user}
+        else return {validate:false}
+    }
 }

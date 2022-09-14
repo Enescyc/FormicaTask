@@ -31,6 +31,7 @@ export class UserOnTasksService{
     async getAll() {
         return await this.prismaService.tasksOnUsers.findMany({
             select:{
+                
                 task:true,
                 user:true
             }

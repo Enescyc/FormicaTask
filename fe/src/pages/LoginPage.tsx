@@ -1,51 +1,28 @@
 import { Button, Input, InputProps } from "antd";
 import { UserOutlined, LockOutlined, } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../features/auth/authSlice";
-import Login from "../types/user.type";
-import axios from "axios";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import {Navigate, useNavigate } from "react-router-dom";
+import jwtDecode from 'jwt-decode';
+import { AuthContext, AuthContextType } from "../context/authContext";
 
 
-
-async function getToken(login: Login , navigate : any) {
-    const session = localStorage.getItem('token');
-    if (session) {
-        navigate('admin/managment')
-    }
-    else {
-        const response = await axios.post('http://localhost:3333/auth/login', { email: login.email, password: login.password })
-        .then(res => {
-            if (res.status === 200) {
-                localStorage.setItem('token', res.data.access_token);
-                navigate('admin/managment')
-            }
-            else {
-                console.log(false)
-                return false;
-            }
-        })
-        .catch(err => alert('Kullanıcı adı veya şifre yanlış.'))
-    }
+interface Decode{
+    sub:number | null;
+    email:string;
+    iat:number |null;
+    exp:number |null;
 }
-
-
 
 export function LoginPage() {
 
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const session = localStorage.getItem('token');
-        if (session) {
-            navigate('admin/task')
-        }
-    },[])
-
+    const {validateToken,user,login,token} = useContext(AuthContext) as AuthContextType;
+    
+    useEffect(()=> {
+        console.log(token);
+    },[token])
 
     const onEmailHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
@@ -55,8 +32,16 @@ export function LoginPage() {
     }
 
     const onLoginButtonClick = (e: any) => {
-        dispatch(login({ email, password }))
-        getToken({ email, password },navigate)
+       login({email:email,password:password})
+       try {
+        if (token) {
+          const decode = jwtDecode(token);
+          navigate('/admin/task')
+        }
+      }
+      catch (err) {
+        return <Navigate to='/login'></Navigate>
+      }
     }
 
     return (

@@ -1,9 +1,14 @@
 
+import MyHeader from "../components/MyHeader";
+import TaskManagmentComponent from "../components/TaskOnUserTable";
+
 
 function TaskManagmentPage() {
-    return(
+
+    return (
         <div>
-            Task Managment Page
+            <MyHeader></MyHeader>
+            <TaskManagmentComponent/>
         </div>
     )
 }
