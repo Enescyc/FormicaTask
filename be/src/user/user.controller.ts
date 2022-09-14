@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post , UseGuards} from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { CreateUserRequest } from "./dto";
+import { CreateUserRequest, UpdateUserRequet } from "./dto";
 import { UserService } from "./user.service";
 
 
@@ -10,7 +10,7 @@ import { UserService } from "./user.service";
 
 export class UserController {
     constructor(private userService: UserService) { }
-  
+
     @Get()
     getAllUsers() {
         return this.userService.getAllUsers();
@@ -30,6 +30,10 @@ export class UserController {
     @Get(':id')
     getUserById(@Param('id') id: string) {
         return this.userService.getUserById(+id);
+    }
+    @Put()
+    updateUser(@Body() updateUserRequestDto: UpdateUserRequet) {
+        return this.userService.updateUser(updateUserRequestDto);
     }
 
 }

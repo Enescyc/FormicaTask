@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
-import { CreateTaskRequestDto, UpdateTaskRequestDto , TaskState} from "./dto";
+import { CreateTaskRequestDto, UpdateTaskRequestDto, TaskState } from "./dto";
 
 @Injectable()
 export class TaskService {
@@ -8,11 +8,11 @@ export class TaskService {
 
 
 
-    private async findTaskById(id: number) {
+    private async findTaskById(taskId: number) {
         try {
             const task = await this.prismaService.task.findFirst({
                 where: {
-                    id: id
+                    id: taskId
                 }
             }).then(res => res)
 
@@ -59,19 +59,25 @@ export class TaskService {
         }
     }
 
-    async removeTask(id: number) {
+    async removeTask(taskId: number) {
         try {
-            const task = await this.findTaskById(id);
+            const task = await this.findTaskById(taskId);
+            if (task) {
+                await this.prismaService.tasksOnUsers.deleteMany({
+                    where: {
+                        taskId: task.id
+                    }
+                })
+                return await this.prismaService.task.delete({
+                    where: {
+                        id: task.id
+                    }
+                })
+            }
 
-            await this.prismaService.task.delete({
-                where: {
-                    id: id
-                }
-            });
-            return task;
         }
-        catch (error) {
-            throw error;
+        catch (err) {
+            throw err;
         }
     }
 

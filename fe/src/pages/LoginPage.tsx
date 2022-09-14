@@ -58,8 +58,7 @@ export function LoginPage() {
                         <Input value={email} onChange={onEmailHandleChange} type="text" size="large" placeholder="Email" prefix={<UserOutlined></UserOutlined>}></Input>
                         <Input value={password} onChange={onPasswordHandleChange} className="mt-5" size="large" placeholder="Password" type="password" prefix={<LockOutlined />}></Input>
                         <Button onClick={onLoginButtonClick} shape="round" size="large" className="mt-5 bg-white"> Login</Button>
-
-                        <Button shape="round" size="large" className="mt-5 bg-white"> Register</Button>
+                        <Button onClick={()=> { navigate('/register')}} shape="round" size="large" className="mt-5 bg-white"> Register</Button>
                         <h1 className="text-md text-white mt-2 ml-2  opacity-80">Don't have a account?</h1>
                     </div>
                 </form>

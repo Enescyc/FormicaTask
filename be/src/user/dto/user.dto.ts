@@ -15,3 +15,9 @@ export class CreateUserRequest {
     secondName:string
 }
 
+
+export class UpdateUserRequet extends CreateUserRequest {
+    id:Number;
+}
+
+

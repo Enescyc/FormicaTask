@@ -19,3 +19,10 @@ export async function getUserOnTask (id:number|any) {
 export async function getTaskOnUser (id:number|any) {
     return await axios.get(BASE_PATH+'/userontask/'+id,config).then(res =>  res) 
 }
+
+
+export async function assignUserOnTask (body: {taskId:number | any , userId: number | any }) {
+    return await axios.post(BASE_PATH+'/userontask',body,config).then(res => res );
+}
+
+
